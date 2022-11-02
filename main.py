@@ -5,10 +5,12 @@ from selenium import webdriver
 # from selenium.webdriver.chrome.service import Service
 import time
 
+from Livro import Livro
+
 # navegador = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 navegador = webdriver.Chrome(r"C:\Users\PC\Documents\chromedriver.exe")
 
-dic_produtos = {'Obra': [], 'Preco': [], 'Avaliacao': []}
+dic_livros = [];
 count = 0
 
 def navegadorScroll(url):
@@ -41,14 +43,18 @@ for i in range(1, 3):
 
         Star = ''
         if (produto.find('i', class_="a-icon a-icon-star-small a-star-small-4-5 aok-align-top")):
-            Star = produto.find('i', class_="a-icon a-icon-star-small a-star-small-4-5 aok-align-top").find('span',
-                                                                                                            class_="a-icon-alt").getText()
+            Star = produto\
+                .find('i', class_="a-icon a-icon-star-small a-star-small-4-5 aok-align-top")\
+                .find('span', class_="a-icon-alt").getText()
         elif (produto.find('i', class_="a-icon a-icon-star-small a-star-small-5 aok-align-top")):
-            Star = produto.find('i', class_="a-icon a-icon-star-small a-star-small-5 aok-align-top").find('span',
-                                                                                                          class_="a-icon-alt").getText()
+            Star = produto\
+                .find('i', class_="a-icon a-icon-star-small a-star-small-5 aok-align-top")\
+                .find('span', class_="a-icon-alt").getText()
 
-        print("Livro {} : ".format(count))
-        print("   Obra: {}".format(Obra))
-        print("   Autor: {}".format(Autor))
-        print("   Stars: {}".format(Star))
-        print("   Preço: {}\n".format(Preco))
+        livro = Livro(count, Obra, Autor, Star, Preco)
+        dic_livros.append(livro)
+
+for livro in dic_livros:
+    print(livro)
+
+navegador.close()
