@@ -8,7 +8,7 @@ class Livro:
 
     def __str__(self):
         formatedPreco = '{:.2f}'.format(round(self.preco, 2)).replace('.', ',') \
-            if self.preco != '' else str(self.preco)
+            if self.preco != '' else '----'
         formatedStars = '\u2605' * int(round(self.stars, 0)) if self.stars != '' else self.stars
 
         return "Livro {} : \n" \
