@@ -4,6 +4,7 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 import time
+import pandas as pd
 
 from Livro import Livro
 
@@ -27,6 +28,17 @@ def navegadorScroll(url):
             break
         last_height = new_height
 
+
+def dataFrameGenerator(objlist):
+    dic_livros_columns = {'ID': [], 'Obra': [], 'Autor': [], 'Stars': [], 'Preço': []}
+    for livro in objlist:
+        dic_livros_columns['ID'].append(livro.id)
+        dic_livros_columns['Obra'].append(livro.obra)
+        dic_livros_columns['Autor'].append(livro.autor)
+        dic_livros_columns['Stars'].append(livro.stars)
+        dic_livros_columns['Preço'].append(livro.preco)
+
+    return pd.DataFrame(data=dic_livros_columns)
 
 for i in range(1, 3):
     url_pag = f'https://www.amazon.com.br/gp/bestsellers/books/ref=zg_bs_pg_{i}?ie=UTF8&pg={i}'
@@ -75,7 +87,6 @@ for i in range(1, 3):
             livro = Livro(count, Obra, Autor, Star, Preco)
             dic_livros.append(livro)
 
-for livro in dic_livros:
-    print(livro)
 
+print(dataFrameGenerator(dic_livros).to_string())
 navegador.close()
